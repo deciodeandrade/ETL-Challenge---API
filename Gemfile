@@ -25,6 +25,12 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # CORS
 gem 'rack-cors', '~> 1.1.1'
 
+# Gem for make requests
+gem 'rest-client'
+
+# Gem for pagination
+gem 'kaminari', '~> 1.2', '>= 1.2.2'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'

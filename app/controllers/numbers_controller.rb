@@ -2,6 +2,6 @@ class NumbersController < ApplicationController
 
   # GET /numbers
   def index
-    @numbers = Number.all.map{|number| number.contents}
+    @numbers = Number.page(params[:page]).map{|number| number.contents}
   end
 end
