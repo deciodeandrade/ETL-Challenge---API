@@ -14,7 +14,7 @@ module RequestDienekesApi
                 numbers += new_array
                 puts i
                 break if new_array == []
-            rescue => RestClient::ExceptionWithResponse => e
+            rescue RestClient::ExceptionWithResponse => e
                e.response
                pages_failed.push(i)
                puts "Erro na page #{i}"

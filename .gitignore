@@ -31,3 +31,6 @@
 /config/master.key
 
 /config/database.yml
+
+numbers.txt
+pages_failed.txt
