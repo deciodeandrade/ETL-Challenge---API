@@ -5,7 +5,7 @@ module MakeSort
         numbers = IO.readlines('numbers.txt')
         numbers.map!{|number| number.to_f}
 
-        numbers = quicksort(numbers)
+        quicksort(numbers)
         
         numbers.each do |number|
             Number.create(contents: number)
