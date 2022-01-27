@@ -5,8 +5,7 @@ module RequestDienekesApi
     def self.call
         pages_failed = []
         numbers = []
-        ###i = 1
-        i = 9991 ###
+        i = 1
         loop do
             begin
                 response = RestClient.get "http://challenge.dienekes.com.br/api/numbers?page=#{i}"
