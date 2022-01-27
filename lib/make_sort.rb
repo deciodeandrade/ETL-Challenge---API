@@ -5,8 +5,10 @@ module MakeSort
         numbers = IO.readlines('numbers.txt')
         numbers.map!{|number| number.to_f}
 
+        puts 'Ordenando números...'
         quicksort(numbers)
         
+        puts 'Salvando números no banco de dados...'
         numbers.each do |number|
             Number.create(contents: number)
         end    
