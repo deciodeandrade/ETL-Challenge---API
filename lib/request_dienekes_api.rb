@@ -13,7 +13,7 @@ module RequestDienekesApi
                     response = RestClient.get "http://challenge.dienekes.com.br/api/numbers?page=#{i}"
                     new_array = JSON.parse(response.body)["numbers"]
                     puts i
-                    break if new_array == [] || i == 501    #'|| i == 501' é apenas para testarmos em desenvolvimento
+                    break if new_array == [] #'|| i == 501' #é apenas para testarmos em desenvolvimento
                     File.open('numbers.txt', 'a') do |line|
                         line.puts(new_array)
                     end
