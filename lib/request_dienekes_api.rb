@@ -30,7 +30,7 @@ module RequestDienekesApi
                     response = RestClient.get "http://challenge.dienekes.com.br/api/numbers?page=#{i}"
                     new_array = JSON.parse(response.body)["numbers"]
                     puts "#{i}"
-                    if new_array == [] #|| i == 501 #é apenas para testarmos em desenvolvimento
+                    if new_array == [] || i == 501 #é apenas para testarmos em desenvolvimento
                         self.write_map_to_continue(false)
                         break
                     end
