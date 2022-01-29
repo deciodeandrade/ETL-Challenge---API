@@ -6,9 +6,11 @@ namespace :make_etl do
     task do: :environment do
         ActiveRecord::Base.transaction do
             puts "Processo ETL iniciado..."
-            RequestDienekesApi::call
-            MakeSort::sort
-            puts "Processo ETL finalizado com sucesso!!!"
+            if (MakeSort::sort if RequestDienekesApi::call)
+                puts "Processo ETL finalizado com sucesso!!!" 
+            else
+                puts "Processo interrompido!!!"
+            end
         end
     end
 end
