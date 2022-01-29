@@ -6,16 +6,21 @@ module RequestDienekesApi
     def self.call
         File.open('map_to_continue.txt', 'a')
         if IO.readlines('map_to_continue.txt').blank?
-            self.with_all_pages
-            self.with_pages_failed if IO.readlines('pages_failed.txt').present? && !eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time]
+            self.first_way
         else
-            last_page_success = eval(IO.readlines('map_to_continue.txt')[0])[:last_page_success]
-            if eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time]
-                self.with_all_pages(last_page_success + 1)
-                self.with_pages_failed if IO.readlines('pages_failed.txt').present? && !eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time]
+            puts "[1] - Continuar de onde parou"
+            puts "[2] - Do início"
+            option = gets.chomp
+
+            puts '_________________________________________'
+            
+            case option
+            when '1'
+                self.other_way
+            when '2'
+                self.first_way
             else
-                self.continue_after_error_in_pages_failed(last_page_success)
-                self.with_pages_failed(last_page_success)
+                'Opção inexistente'
             end
         end
         !eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time] && IO.readlines('pages_failed.txt').blank?
@@ -29,6 +34,23 @@ module RequestDienekesApi
     end
 
     private
+
+    def self.first_way
+        self.limpar_arquivos
+        self.with_all_pages
+        self.with_pages_failed if IO.readlines('pages_failed.txt').present? && !eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time]
+    end
+
+    def self.other_way
+        last_page_success = eval(IO.readlines('map_to_continue.txt')[0])[:last_page_success]
+        if eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time]
+            self.with_all_pages(last_page_success + 1)
+            self.with_pages_failed if IO.readlines('pages_failed.txt').present? && !eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time]
+        else
+            self.continue_after_error_in_pages_failed(last_page_success)
+            self.with_pages_failed(last_page_success)
+        end
+    end
 
     def self.with_all_pages (i = 1)
         begin
