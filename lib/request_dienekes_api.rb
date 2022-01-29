@@ -4,6 +4,7 @@ require 'json'
 module RequestDienekesApi
 
     def self.call
+        File.open('map_to_continue.txt', 'a')
         if IO.readlines('map_to_continue.txt').blank?
             self.with_all_pages
             self.with_pages_failed if IO.readlines('pages_failed.txt').present? && !eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time]
