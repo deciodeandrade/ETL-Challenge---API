@@ -1,5 +1,6 @@
 require 'algorithm'
 include Algorithm
+
 module MakeSort
     def self.sort
         numbers = IO.readlines('numbers.txt')

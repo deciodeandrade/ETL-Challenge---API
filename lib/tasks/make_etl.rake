@@ -7,6 +7,7 @@ namespace :make_etl do
         ActiveRecord::Base.transaction do
             puts "Processo ETL iniciado..."
             if (MakeSort::sort if RequestDienekesApi::call)
+                RequestDienekesApi::limpar_arquivos
                 puts "Processo ETL finalizado com sucesso!!!" 
             else
                 puts "Processo interrompido!!!"

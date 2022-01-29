@@ -14,11 +14,18 @@ module RequestDienekesApi
                 self.with_all_pages(last_page_success + 1)
                 self.with_pages_failed if IO.readlines('pages_failed.txt').present? && !eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time]
             else
-                #self.with_pages_failed
-                puts 'Olá mundo!'
+                self.continue_after_error_in_pages_failed(last_page_success)
+                self.with_pages_failed(last_page_success)
             end
         end
         !eval(IO.readlines('map_to_continue.txt')[0])[:is_first_time] && IO.readlines('pages_failed.txt').blank?
+    end
+
+    def self.limpar_arquivos
+        File.open('map_to_continue.txt', 'w')
+        File.open('numbers.txt', 'w')
+        File.open('pages_failed.txt', 'w')
+        File.open('pages_failed_copy.txt', 'w')
     end
 
     private
@@ -31,7 +38,7 @@ module RequestDienekesApi
                     response = RestClient.get "http://challenge.dienekes.com.br/api/numbers?page=#{i}"
                     new_array = JSON.parse(response.body)["numbers"]
                     puts "#{i}"
-                    if new_array == [] || i == 501 #é apenas para testarmos em desenvolvimento
+                    if new_array == [] #|| i == 501 #é apenas para testarmos em desenvolvimento
                         self.write_map_to_continue(false)
                         break
                     end
@@ -56,7 +63,7 @@ module RequestDienekesApi
         end               
     end
 
-    def self.with_pages_failed
+    def self.with_pages_failed(last_page_success = 0)
         begin
             count = 1;
             loop do    
@@ -99,6 +106,21 @@ module RequestDienekesApi
     def self.write_map_to_continue(is_first_time = true, last_page_success = 0)
         File.open('map_to_continue.txt', 'w') do |line|
             line.print({is_first_time: is_first_time, last_page_success: last_page_success})
+        end
+    end
+
+    def self.continue_after_error_in_pages_failed(last_page_success)
+        pages_failed_copy = IO.readlines('pages_failed_copy.txt')
+        pages_failed_copy.map!{|page| page.to_i}
+
+        pages_failed = IO.readlines('pages_failed.txt')
+        pages_failed.map!{|page| page.to_i}
+
+        pages_missing = pages_failed_copy[pages_failed_copy.index(last_page_success)+1..-1]
+        pages_failed = pages_failed.concat(pages_missing)
+
+        File.open('pages_failed.txt', 'w') do |line|
+            line.puts(pages_failed)
         end
     end
 end
