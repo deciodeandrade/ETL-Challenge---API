@@ -60,7 +60,7 @@ module RequestDienekesApi
                     response = RestClient.get "http://challenge.dienekes.com.br/api/numbers?page=#{i}"
                     new_array = JSON.parse(response.body)["numbers"]
                     puts "#{i}"
-                    if new_array == [] #|| i == 501 #é apenas para testarmos em desenvolvimento
+                    if new_array == [] || i == 201 #é apenas para testarmos em desenvolvimento
                         self.write_map_to_continue(false)
                         break
                     end
@@ -68,6 +68,7 @@ module RequestDienekesApi
                         line.puts(new_array)
                     end
                     last_page_success = i
+                    self.write_map_to_continue(true, last_page_success)
                     puts "ok"
                 rescue RestClient::ExceptionWithResponse => e
                     e.response
@@ -76,12 +77,13 @@ module RequestDienekesApi
                         line.puts(i)
                     end
                     last_page_success = i
+                    self.write_map_to_continue(true, last_page_success)
                     puts "registrado"
                 end
                 i += 1
             end
         rescue => exception
-            self.write_map_to_continue(true, last_page_success)
+            
         end               
     end
 
@@ -108,6 +110,7 @@ module RequestDienekesApi
                             line.puts(new_array)
                         end
                         last_page_success = i
+                        self.write_map_to_continue(false, last_page_success)
                         puts "ok"
                     rescue RestClient::ExceptionWithResponse => e
                         e.response
@@ -116,12 +119,13 @@ module RequestDienekesApi
                             line.puts(i)
                         end
                         last_page_success = i
+                        self.write_map_to_continue(false, last_page_success)
                         puts "registrado"
                     end
                 end
             end
         rescue => exception
-            self.write_map_to_continue(false, last_page_success)
+            
         end
     end
 
