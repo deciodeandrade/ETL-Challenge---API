@@ -5,7 +5,11 @@
 
 
 ## Apresentação
+Parte 1 - Funcionamento do Script de ETL
 https://youtu.be/PLiRU5dJFy8
+
+Parte 2 - Funcionamento da Request a nossa API
+https://youtu.be/sjKXGyOHmFs
 
 ## 💻 Tecnologias usadas
 
