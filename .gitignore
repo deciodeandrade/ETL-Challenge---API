@@ -32,7 +32,4 @@
 
 /config/database.yml
 
-numbers.txt
-pages_failed.txt
-pages_failed_copy.txt
-map_to_continue.txt
+/lib/files/*
